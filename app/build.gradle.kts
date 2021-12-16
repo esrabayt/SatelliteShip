@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,10 +41,31 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.21")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    testImplementation("junit:junit:4.13.1")
+    // Kotlin
+    implementation(Deps.kotlin)
+
+    // Ktx
+    implementation(Deps.coreKtx)
+    implementation(Deps.activityKtx)
+    implementation(Deps.viewModelKtx)
+    implementation(Deps.liveDataKtx)
+
+    // Support Libraries
+    implementation(Deps.appcompat)
+    implementation(Deps.material)
+    implementation(Deps.constraintLayout)
+
+    // Hilt
+    implementation(Deps.hilt)
+    kapt(Deps.hiltCompiler)
+
+    // Coroutines
+    implementation(Deps.coroutinesCore)
+    implementation(Deps.coroutinesAndroid)
+
+    // Test
+    testImplementation(Deps.junit)
+    testImplementation(Deps.assertionsCore)
+    testImplementation(Deps.mockk)
+    testImplementation(Deps.coroutinesTest)
 }
