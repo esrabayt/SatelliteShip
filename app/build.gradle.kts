@@ -4,14 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.task.noteapp"
-        minSdk = 21
-        targetSdk = 30
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Config.versionCode
+        versionName = Config.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
