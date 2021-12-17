@@ -63,6 +63,13 @@ dependencies {
     implementation(Deps.coroutinesCore)
     implementation(Deps.coroutinesAndroid)
 
+    //Gson
+    implementation(Deps.gson)
+
+    // MaterialDialogs
+    implementation(Deps.materialDialogs)
+    implementation(Deps.materialDialogsLifecycle)
+
     // Test
     testImplementation(Deps.junit)
     testImplementation(Deps.assertionsCore)

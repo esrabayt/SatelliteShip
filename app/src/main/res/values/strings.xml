@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Satelliteship</string>
+    <string name="active">Active</string>
+    <string name="passive">Passive</string>
 </resources>
