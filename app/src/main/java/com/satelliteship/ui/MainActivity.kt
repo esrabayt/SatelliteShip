@@ -7,9 +7,11 @@ import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.*
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.satelliteship.core.BaseActivity
@@ -17,7 +19,10 @@ import com.satelliteship.databinding.ActivityMainBinding
 import com.satelliteship.databinding.SatelliteDetailBinding
 import com.satelliteship.domain.model.Satellite
 import com.satelliteship.utils.viewBinding
+import com.satelliteship.worker.PositionWorker
+import com.satelliteship.worker.PositionWorker.Companion.KEY_SATELLITE_POSITION
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -59,7 +64,6 @@ class MainActivity : BaseActivity() {
         val binding = SatelliteDetailBinding.inflate(layoutInflater)
         MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             with(binding) {
-
                 title.text = satellite.name
                 date.text = detail.first_flight
 
@@ -71,15 +75,45 @@ class MainActivity : BaseActivity() {
                     .bold { append("Cost:") }
                     .append(detail.cost_per_launch.toString())
 
-                position.text = SpannableStringBuilder()
-                    .bold { append("Last Positions:") }
-                    .append("(" + viewModel.getPositions(satellite.id)?.posX.toString())
-                    .append("," + viewModel.getPositions(satellite.id)?.posY.toString() + ")")
+                viewModel.setPositionIndex(0)
+                viewModel.positionIndex.observe(this@MainActivity) { index ->
+                    getPositionPerThreeSeconds()
+                    val pos = viewModel.getPositions(satellite.id, index)
+                    position.text = SpannableStringBuilder()
+                        .bold { append("Last Positions:") }
+                        .append("(" + pos?.posX.toString())
+                        .append("," + pos?.posY.toString() + ")")
+                }
             }
-
             customView(view = binding.root, noVerticalPadding = true)
             lifecycleOwner(this@MainActivity)
+        }.onDismiss {
+            cancel()
+            viewModel.dataLoading.removeObservers(this@MainActivity)
         }
+    }
+
+    private fun getPositionPerThreeSeconds() {
+        cancel()
+        val workManager = WorkManager.getInstance(this)
+
+        val positionWorker = OneTimeWorkRequestBuilder<PositionWorker>()
+            .setInitialDelay(3, TimeUnit.SECONDS)
+            .build()
+
+        workManager.enqueue(positionWorker)
+
+        workManager.getWorkInfoByIdLiveData(positionWorker.id)
+            .observe(this) { workInfo ->
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    val position = workInfo.outputData.getInt(KEY_SATELLITE_POSITION, 0)
+                    viewModel.setPositionIndex(position)
+                }
+            }
+    }
+
+    private fun cancel() {
+        WorkManager.getInstance(this@MainActivity).cancelAllWork()
     }
 
     private fun observeViewModel() {

@@ -49,6 +49,7 @@ dependencies {
     implementation(Deps.activityKtx)
     implementation(Deps.viewModelKtx)
     implementation(Deps.liveDataKtx)
+    implementation(Deps.workManager)
 
     // Support Libraries
     implementation(Deps.appcompat)

@@ -9,6 +9,7 @@ object Deps {
     const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workmanager}"
 
     // Google
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
@@ -19,6 +20,13 @@ object Deps {
     // Coroutines
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+
+    //Gson
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
+
+    // MaterialDialogs
+    const val materialDialogs = "com.afollestad.material-dialogs:bottomsheets:${Versions.materialDialogs}"
+    const val materialDialogsLifecycle = "com.afollestad.material-dialogs:lifecycle:${Versions.materialDialogs}"
 
     // Test
     const val junit = "junit:junit:${Versions.junit}"

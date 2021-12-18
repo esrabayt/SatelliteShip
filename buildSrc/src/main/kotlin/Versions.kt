@@ -8,6 +8,7 @@ object Versions {
     const val lifecycle = "2.4.0-alpha01"
     const val coreKtx = "1.5.0"
     const val constraintLayout = "2.0.4"
+    const val workmanager = "2.7.1"
 
     // Google
     const val hilt = "2.36"
@@ -15,6 +16,12 @@ object Versions {
 
     // Coroutines
     const val coroutines = "1.5.2"
+
+    // Gson
+    const val gson = "2.8.9"
+
+    // MaterialDialogs
+    const val materialDialogs = "3.3.0"
 
     // Test
     const val junit = "4.12"

@@ -41,6 +41,9 @@ class MainViewModel @Inject constructor(
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
+    private val _positionIndex = MutableLiveData<Int>()
+    val positionIndex: LiveData<Int> = _positionIndex
+
     private val detailList: List<SatelliteDetail>
         get() = fetchDetailUseCase()
 
@@ -59,8 +62,12 @@ class MainViewModel @Inject constructor(
         return detailList.firstOrNull { it.id == satellite.id }
     }
 
-    fun getPositions(id: Int): Position? {
-        return positionList.firstOrNull() { it.id == id }?.positions?.get(0)
+    fun getPositions(id: Int, index: Int): Position? {
+        return positionList.firstOrNull() { it.id == id }?.positions?.get(index)
+    }
+
+    fun setPositionIndex(index: Int) {
+        _positionIndex.value = index
     }
 
 }
