@@ -2,6 +2,7 @@ package com.satelliteship.ui
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.core.text.bold
 import androidx.core.view.isVisible
@@ -57,6 +58,17 @@ class MainActivity : BaseActivity() {
             )
         )
         mainRecyclerView.adapter = mainAdapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.loadSatellites(newText ?: "")
+                return false
+            }
+        })
     }
 
     private fun showSatelliteDetail(satellite: Satellite) {
@@ -66,7 +78,6 @@ class MainActivity : BaseActivity() {
             with(binding) {
                 title.text = satellite.name
                 date.text = detail.first_flight
-
                 height.text = SpannableStringBuilder()
                     .bold { append("Height/Mass:") }
                     .append("${detail.height}/${detail.mass}")

@@ -43,6 +43,8 @@ class MainViewHolder(
         binding.title.text = satellite.name
         binding.description.text = satellite.active.toString()
         if (satellite.active) {
+            binding.title.setTextColor(context.getColor(R.color.black))
+            binding.description.setTextColor(context.getColor(R.color.black))
             binding.description.text = context.getString(R.string.active)
             binding.image.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -51,7 +53,10 @@ class MainViewHolder(
                 )
             )
         } else {
+            binding.title.setTextColor(context.getColor(R.color.gray))
+            binding.description.setTextColor(context.getColor(R.color.gray))
             binding.description.text = context.getString(R.string.passive)
+            binding.root.isClickable = false
             binding.image.setImageDrawable(
                 AppCompatResources.getDrawable(
                     context,

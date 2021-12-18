@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import java.util.concurrent.TimeUnit
 
 class PositionWorker(context: Context, userParameters: WorkerParameters) :
     Worker(context, userParameters) {

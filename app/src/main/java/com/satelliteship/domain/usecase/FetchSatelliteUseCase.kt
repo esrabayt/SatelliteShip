@@ -17,8 +17,8 @@ class FetchSatelliteUseCase @Inject constructor(
         satelliteList = satelliteDataSource.getSatellites()
     }
 
-    fun observe(): LiveData<List<Satellite>> {
-        satelliteItems.value = satelliteList
+    fun observe(searchText: String): LiveData<List<Satellite>> {
+        satelliteItems.value = satelliteList.filter { it.name.contains(searchText, true) }
         return satelliteItems
     }
 }

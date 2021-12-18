@@ -23,17 +23,15 @@ class MainViewModel @Inject constructor(
     val fetchPositionsUseCase: FetchPositionsUseCase
 ) : BaseViewModel() {
 
-    private val _forceUpdate = MutableLiveData(false)
+    private val _searchText = MutableLiveData<String>()
 
-    private val _items: LiveData<List<Satellite>> = _forceUpdate.switchMap { forceUpdate ->
-        if (forceUpdate) {
-            _dataLoading.value = true
-            viewModelScope.launch {
-                fetchSatelliteUseCase()
-                _dataLoading.value = false
-            }
+    private val _items: LiveData<List<Satellite>> = _searchText.switchMap { searchText ->
+        _dataLoading.value = true
+        viewModelScope.launch {
+            fetchSatelliteUseCase()
+            _dataLoading.value = false
         }
-        fetchSatelliteUseCase.observe()
+        fetchSatelliteUseCase.observe(searchText)
     }
 
     val items: LiveData<List<Satellite>> = _items
@@ -51,11 +49,11 @@ class MainViewModel @Inject constructor(
         get() = fetchPositionsUseCase()
 
     init {
-        loadSatellites(true)
+        loadSatellites("")
     }
 
-    private fun loadSatellites(forceUpdate: Boolean) {
-        _forceUpdate.value = forceUpdate
+    fun loadSatellites(searchText: String) {
+        _searchText.value = searchText
     }
 
     fun getDetail(satellite: Satellite): SatelliteDetail? {
@@ -69,5 +67,4 @@ class MainViewModel @Inject constructor(
     fun setPositionIndex(index: Int) {
         _positionIndex.value = index
     }
-
 }
