@@ -1,0 +1,1 @@
+/Users/esrakaya/SatelliteShip/buildSrc/build/classes/kotlin/main/Config.class:/Users/esrakaya/SatelliteShip/buildSrc/build/classes/kotlin/main/Deps.class:/Users/esrakaya/SatelliteShip/buildSrc/build/classes/kotlin/main/Versions.class
